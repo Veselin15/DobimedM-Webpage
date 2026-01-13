@@ -4,12 +4,11 @@ import { useState, useEffect } from "react";
 import { Menu, X, Phone } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
-// ТУК ДОБАВЯМЕ НОВИЯ ЛИНК:
 const navLinks = [
   { name: "Начало", href: "#home" },
   { name: "За нас", href: "#about" },
   { name: "Услуги", href: "#services" },
-  { name: "Как работим", href: "#process" }, // <-- НОВО
+  { name: "Как работим", href: "#process" },
   { name: "Лицензи", href: "#license" },
   { name: "Галерия", href: "#gallery" },
   { name: "Контакти", href: "#contact" },
@@ -24,22 +23,35 @@ export default function Navbar() {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
 
-      const sections = navLinks.map(link => link.href.substring(1));
-      let currentSection = "home";
+      // 1. СПЕЦИАЛНА ПРОВЕРКА ЗА ДЪНОТО НА СТРАНИЦАТА
+      // Ако потребителят е стигнал до края, винаги маркираме "Контакти"
+      if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 10) {
+        setActiveSection("contact");
+        return;
+      }
 
-      // Логика за засичане на секцията
+      // 2. СТАНДАРТНА ЛОГИКА ЗА ОСТАНАЛИТЕ СЕКЦИИ
+      const sections = navLinks.map(link => link.href.substring(1));
+
+      // Добавяме отместване (offset), за да се сменя малко преди секцията да стигне върха
+      const scrollPosition = window.scrollY + 300;
+
       for (const section of sections) {
         const element = document.getElementById(section);
         if (element) {
-          const rect = element.getBoundingClientRect();
-          // Adjusted offset for better detection
-          if (rect.top <= 200 && rect.bottom >= 200) {
-            currentSection = section;
+          const offsetTop = element.offsetTop;
+          const offsetHeight = element.offsetHeight;
+
+          // Ако скролът е между началото и края на секцията
+          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+            setActiveSection(section);
           }
         }
       }
-      setActiveSection(currentSection);
     };
+
+    // Извикваме веднъж при зареждане, за да захапе правилната секция
+    handleScroll();
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
@@ -68,15 +80,17 @@ export default function Navbar() {
                 <a
                   key={link.name}
                   href={link.href}
-                  className={`text-sm font-medium transition-all relative ${
+                  className={`text-sm font-medium transition-all relative py-1 ${
                     isActive ? "text-blue-600" : "text-slate-600 hover:text-blue-600"
                   }`}
                 >
                   {link.name}
+                  {/* Анимирана линия */}
                   {isActive && (
                     <motion.span
                       layoutId="activeSection"
-                      className="absolute -bottom-1 left-0 right-0 h-0.5 bg-blue-600 rounded-full"
+                      className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-600 rounded-full"
+                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
                     />
                   )}
                 </a>
@@ -101,6 +115,7 @@ export default function Navbar() {
         </div>
       </nav>
 
+      {/* МОБИЛНО МЕНЮ */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
