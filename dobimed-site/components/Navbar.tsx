@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Menu, X, Phone } from "lucide-react";
+import {Menu, X, Phone, ZoomIn, FileCheck} from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const navLinks = [
@@ -114,3 +114,5 @@ export default function Navbar() {
     </>
   );
 }
+
+

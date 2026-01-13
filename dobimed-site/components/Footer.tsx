@@ -51,7 +51,7 @@ export default function Footer() {
       </div>
 
       <div className="text-center mt-16 pt-8 border-t border-slate-900 text-sm text-slate-600">
-        © {new Date().getFullYear()} Dobimed. Всички права запазени.
+        © {new Date().getFullYear()} Dobimed М OOD. Всички права запазени.
       </div>
     </footer>
   );
