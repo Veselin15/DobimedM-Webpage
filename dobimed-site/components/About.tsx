@@ -1,8 +1,24 @@
 "use client";
 
 import { useRef } from "react";
-import { ShieldCheck, History, Hammer } from "lucide-react";
+import { History, Hammer } from "lucide-react"; // Махнахме ShieldCheck, защото ще ползваме флага
 import { motion, useInView } from "framer-motion";
+
+// 1. Създаваме си компонент за Швейцарското знаме
+const SwissFlagIcon = ({ size = 32, className }: { size?: number, className?: string }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 32 32"
+    className={className}
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    {/* Червен квадрат (със заоблени краища за по-модерен вид) */}
+    <rect width="32" height="32" rx="6" fill="#DC2626" />
+    {/* Бял кръст */}
+    <path d="M13 7H19V13H25V19H19V25H13V19H7V13H13V7Z" fill="white" />
+  </svg>
+);
 
 export default function About() {
   const ref = useRef(null);
@@ -48,17 +64,22 @@ export default function About() {
               <p className="bg-blue-50/50 p-4 rounded-lg border-l-4 border-blue-500 italic text-slate-700">
                 "През 2006 г. нашата база е напълно обновена и модернизирана по проект на <strong>Дружество за болнично партньорство 'Шафхаузен - Добрич' (Швейцария)</strong>."
               </p>
+              <p>
+                Това партньорство не е просто история – то е гаранция, че работим по най-високите <strong>европейски стандарти</strong> за качество, чистота и технологична обезпеченост.
+              </p>
             </motion.div>
 
             {/* ИКОНИ С ПРЕДИМСТВА */}
             <motion.div variants={itemVariants} className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4">
               {[
                 { icon: History, color: "text-blue-600", label: "От 1978 г.", desc: "Традиция" },
-                { icon: ShieldCheck, color: "text-red-600", label: "Швейцарски", desc: "Стандарт" },
+                // ТУК използваме новата икона:
+                { icon: SwissFlagIcon, color: "", label: "Швейцарски", desc: "Стандарт" },
                 { icon: Hammer, color: "text-slate-600", label: "Собствена", desc: "База" },
               ].map((item, index) => (
                 <div key={index} className="flex flex-col items-center text-center p-4 bg-white rounded-xl shadow-md border border-slate-100 hover:-translate-y-1 transition duration-300">
-                  <item.icon className={`${item.color} mb-3`} size={32} />
+                  {/* Рендираме иконата */}
+                  <item.icon className={`${item.color} mb-3`} size={42} />
                   <span className="font-bold text-slate-800 text-sm uppercase tracking-wide">{item.label}</span>
                   <span className="text-xs text-slate-500">{item.desc}</span>
                 </div>
