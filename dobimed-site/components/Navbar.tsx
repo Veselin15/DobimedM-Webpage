@@ -4,10 +4,12 @@ import { useState, useEffect } from "react";
 import { Menu, X, Phone } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
+// ТУК ДОБАВЯМЕ НОВИЯ ЛИНК:
 const navLinks = [
   { name: "Начало", href: "#home" },
   { name: "За нас", href: "#about" },
   { name: "Услуги", href: "#services" },
+  { name: "Как работим", href: "#process" }, // <-- НОВО
   { name: "Лицензи", href: "#license" },
   { name: "Галерия", href: "#gallery" },
   { name: "Контакти", href: "#contact" },
@@ -18,22 +20,20 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
 
-  // Следим скролването за фон и активна секция
   useEffect(() => {
     const handleScroll = () => {
-      // 1. Промяна на фона
       setScrolled(window.scrollY > 50);
 
-      // 2. Определяне на активната секция
-      const sections = navLinks.map(link => link.href.substring(1)); // ["home", "about", ...]
-
+      const sections = navLinks.map(link => link.href.substring(1));
       let currentSection = "home";
+
+      // Логика за засичане на секцията
       for (const section of sections) {
         const element = document.getElementById(section);
         if (element) {
           const rect = element.getBoundingClientRect();
-          // Ако секцията е в горната част на екрана (с малък толеранс)
-          if (rect.top <= 150 && rect.bottom >= 150) {
+          // Adjusted offset for better detection
+          if (rect.top <= 200 && rect.bottom >= 200) {
             currentSection = section;
           }
         }
@@ -56,13 +56,12 @@ export default function Navbar() {
       >
         <div className="max-w-7xl mx-auto px-4 flex justify-between items-center">
 
-          {/* ЛОГО */}
           <a href="#home" className="text-2xl font-bold text-slate-800 tracking-tight">
             DOBI<span className="text-blue-600">MED M</span>
           </a>
 
           {/* DESKTOP МЕНЮ */}
-          <div className="hidden md:flex items-center gap-8">
+          <div className="hidden md:flex items-center gap-6 lg:gap-8">
             {navLinks.map((link) => {
               const isActive = activeSection === link.href.substring(1);
               return (
@@ -74,7 +73,6 @@ export default function Navbar() {
                   }`}
                 >
                   {link.name}
-                  {/* Подчертаване за активния линк */}
                   {isActive && (
                     <motion.span
                       layoutId="activeSection"
@@ -94,7 +92,6 @@ export default function Navbar() {
             </a>
           </div>
 
-          {/* МОБИЛЕН БУТОН */}
           <button
             onClick={() => setIsOpen(true)}
             className="md:hidden p-2 text-slate-800 hover:bg-slate-100 rounded-lg transition"
@@ -104,7 +101,6 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* МОБИЛНО МЕНЮ */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -121,7 +117,7 @@ export default function Navbar() {
               <X size={32} />
             </button>
 
-            <div className="flex flex-col items-center gap-8 text-xl">
+            <div className="flex flex-col items-center gap-6 text-lg">
               {navLinks.map((link) => (
                 <a
                   key={link.name}
@@ -139,7 +135,7 @@ export default function Navbar() {
                 className="mt-4 flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-full font-bold shadow-xl"
               >
                 <Phone size={20} />
-                Обадете се сега
+                Обадете се
               </a>
             </div>
           </motion.div>
