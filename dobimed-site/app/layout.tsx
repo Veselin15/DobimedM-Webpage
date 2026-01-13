@@ -1,23 +1,13 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter } from "next/font/google"; // Или шрифтът, който ползваш
 import "./globals.css";
+import ScrollEnhancements from "@/components/ScrollEnhancements"; // <--- Импортирай тук
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Dobimed M | Сервиз на медицинска и рентгенова апаратура - Добрич",
-  description: "Лицензиран сервиз за медицинска техника, рентгенова апаратура и електроника. Партньорство с Швейцария. Над 45 години опит.",
-  icons: {
-    icon: "/favicon.ico", // Можем да направим и твое лого по-късно
-  },
+  title: "Dobimed M | Сервиз на медицинска техника",
+  description: "Лицензиран сервиз за медицинска и рентгенова апаратура в Добрич.",
 };
 
 export default function RootLayout({
@@ -26,10 +16,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+    <html lang="bg">
+      <body className={inter.className}>
+        <ScrollEnhancements /> {/* <--- Добави компонента тук, най-горе */}
         {children}
       </body>
     </html>

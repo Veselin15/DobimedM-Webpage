@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import {Menu, X, Phone, ZoomIn, FileCheck} from "lucide-react";
+import { Menu, X, Phone } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const navLinks = [
@@ -16,12 +16,31 @@ const navLinks = [
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState("home");
 
-  // Ефект за промяна на фона при скролване
+  // Следим скролването за фон и активна секция
   useEffect(() => {
     const handleScroll = () => {
+      // 1. Промяна на фона
       setScrolled(window.scrollY > 50);
+
+      // 2. Определяне на активната секция
+      const sections = navLinks.map(link => link.href.substring(1)); // ["home", "about", ...]
+
+      let currentSection = "home";
+      for (const section of sections) {
+        const element = document.getElementById(section);
+        if (element) {
+          const rect = element.getBoundingClientRect();
+          // Ако секцията е в горната част на екрана (с малък толеранс)
+          if (rect.top <= 150 && rect.bottom >= 150) {
+            currentSection = section;
+          }
+        }
+      }
+      setActiveSection(currentSection);
     };
+
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -44,18 +63,31 @@ export default function Navbar() {
 
           {/* DESKTOP МЕНЮ */}
           <div className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
-                className="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors"
-              >
-                {link.name}
-              </a>
-            ))}
+            {navLinks.map((link) => {
+              const isActive = activeSection === link.href.substring(1);
+              return (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  className={`text-sm font-medium transition-all relative ${
+                    isActive ? "text-blue-600" : "text-slate-600 hover:text-blue-600"
+                  }`}
+                >
+                  {link.name}
+                  {/* Подчертаване за активния линк */}
+                  {isActive && (
+                    <motion.span
+                      layoutId="activeSection"
+                      className="absolute -bottom-1 left-0 right-0 h-0.5 bg-blue-600 rounded-full"
+                    />
+                  )}
+                </a>
+              );
+            })}
+
             <a
-              href="tel:+359888123456" // Смени с реалния телефон
-              className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-full text-sm font-medium hover:bg-blue-700 transition shadow-lg hover:shadow-blue-500/20"
+              href="tel:+359888123456"
+              className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-full text-sm font-medium hover:bg-blue-700 transition shadow-lg hover:shadow-blue-500/20 hover:-translate-y-0.5"
             >
               <Phone size={16} />
               Обадете се
@@ -72,7 +104,7 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* МОБИЛНО МЕНЮ (Full Screen Overlay) */}
+      {/* МОБИЛНО МЕНЮ */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -95,7 +127,9 @@ export default function Navbar() {
                   key={link.name}
                   href={link.href}
                   onClick={() => setIsOpen(false)}
-                  className="font-medium text-slate-800 hover:text-blue-600 transition-colors"
+                  className={`font-medium transition-colors ${
+                     activeSection === link.href.substring(1) ? "text-blue-600" : "text-slate-800"
+                  }`}
                 >
                   {link.name}
                 </a>
@@ -114,5 +148,3 @@ export default function Navbar() {
     </>
   );
 }
-
-
