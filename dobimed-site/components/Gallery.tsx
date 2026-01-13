@@ -1,10 +1,9 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ChevronLeft, ChevronRight, ZoomIn } from "lucide-react";
 
-// 1. Обновен списък със снимки
 const images = [
   { src: "/images/workshop-1.jpg", alt: "Работни места", category: "Сервизна база" },
   { src: "/images/machines.jpg", alt: "Фина механика (Струг)", category: "Оборудване" },
@@ -16,36 +15,45 @@ const images = [
 ];
 
 export default function Gallery() {
-  // Използваме индекс (число) вместо URL, за да можем да правим Напред/Назад
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
-  // Състояние за зуум
   const [isZoomed, setIsZoomed] = useState(false);
 
+  // Ресет на зуума при затваряне
   const closeLightbox = useCallback(() => {
     setSelectedIndex(null);
     setIsZoomed(false);
   }, []);
 
-  // Функции за навигация
+  // Навигация
   const showPrev = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setIsZoomed(false); // Ресетваме зуума при смяна
+    setIsZoomed(false);
     setSelectedIndex((prev) => (prev === null || prev === 0 ? images.length - 1 : prev - 1));
   };
 
   const showNext = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setIsZoomed(false); // Ресетваме зуума при смяна
+    setIsZoomed(false);
     setSelectedIndex((prev) => (prev === null || prev === images.length - 1 ? 0 : prev + 1));
   };
 
-  // Функция за зуум при клик
   const toggleZoom = (e: React.MouseEvent) => {
     e.stopPropagation();
     setIsZoomed((prev) => !prev);
   };
 
-  // Текущата снимка, ако има избрана
+  // Клавишна навигация (бонус)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (selectedIndex === null) return;
+      if (e.key === "Escape") closeLightbox();
+      if (e.key === "ArrowLeft") setSelectedIndex((prev) => (prev === null || prev === 0 ? images.length - 1 : prev! - 1));
+      if (e.key === "ArrowRight") setSelectedIndex((prev) => (prev === null || prev === images.length - 1 ? 0 : prev! + 1));
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [selectedIndex, closeLightbox]);
+
   const currentImage = selectedIndex !== null ? images[selectedIndex] : null;
 
   return (
@@ -53,110 +61,117 @@ export default function Gallery() {
       <div className="max-w-6xl mx-auto px-4">
         <h2 className="text-3xl font-bold text-center mb-12">Материална База</h2>
 
-        {/* --- Решетка с миниатюри --- */}
+        {/* --- ГАЛЕРИЯ (МИНИАТЮРИ) --- */}
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
           {images.map((img, index) => (
             <motion.div
               key={index}
-              layoutId={`img-container-${index}`}
               onClick={() => setSelectedIndex(index)}
               className="relative h-48 md:h-64 bg-slate-800 rounded-xl overflow-hidden cursor-pointer group shadow-lg border border-slate-700"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
-              <motion.img
-                layoutId={`img-${index}`}
+              <img
                 src={img.src}
                 alt={img.alt}
                 className="object-cover w-full h-full group-hover:opacity-90 transition duration-300"
               />
-              {/* Текст върху снимката */}
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4 translate-y-full group-hover:translate-y-0 transition duration-300 hidden md:block">
-                <p className="text-sm font-medium text-white truncate">{img.alt}</p>
+
+              {/* Надпис при хувър (поправен) */}
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300 flex flex-col justify-end">
+                <p className="text-sm font-bold text-white">{img.alt}</p>
                 <p className="text-xs text-slate-300">{img.category}</p>
               </div>
-               {/* Икона за зуум на мобилни */}
-               <div className="absolute top-2 right-2 bg-black/30 p-1 rounded-full md:hidden opacity-70">
-                  <ZoomIn size={16} />
+
+               {/* Икона за зуум */}
+               <div className="absolute top-2 right-2 bg-black/40 p-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <ZoomIn size={18} className="text-white" />
                </div>
             </motion.div>
           ))}
         </div>
       </div>
 
-      {/* --- Прозорец за цял екран (Lightbox) --- */}
+      {/* --- LIGHTBOX (ГОЛЯМА СНИМКА) --- */}
       <AnimatePresence>
         {selectedIndex !== null && currentImage && (
           <motion.div
-            initial={{ opacity: 0, backdropFilter: "blur(0px)" }}
-            animate={{ opacity: 1, backdropFilter: "blur(10px)" }}
-            exit={{ opacity: 0, backdropFilter: "blur(0px)" }}
-            onClick={closeLightbox}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 p-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-sm"
+            onClick={closeLightbox} // Затваря при клик на фона
           >
 
-            {/* Бутон за затваряне */}
-            <button onClick={closeLightbox} className="absolute top-4 right-4 z-50 text-white/70 hover:text-white p-2 bg-white/10 rounded-full transition hover:bg-white/20">
-              <X size={32} />
-            </button>
-
-            {/* Стрелка Наляво */}
-            <button
-                onClick={showPrev}
-                className="absolute left-4 z-50 p-3 text-white/70 hover:text-white bg-white/10 rounded-full transition hover:bg-white/20 hidden md:block"
-            >
-                <ChevronLeft size={40} />
-            </button>
-
-            {/* Стрелка Надясно */}
-            <button
-                onClick={showNext}
-                className="absolute right-4 z-50 p-3 text-white/70 hover:text-white bg-white/10 rounded-full transition hover:bg-white/20 hidden md:block"
-            >
-                <ChevronRight size={40} />
-            </button>
-
-            {/* --- ГОЛЯМАТА СНИМКА --- */}
-            <div className="relative w-full h-full flex items-center justify-center overflow-hidden">
-                <motion.img
-                  // Ключът е важен, за да знае React, че снимката се сменя
-                  key={selectedIndex}
-                  src={currentImage.src}
-                  layoutId={`img-${selectedIndex}`}
-                  onClick={toggleZoom}
-
-                  // Анимация на зуум
-                  animate={{
-                    scale: isZoomed ? 2.5 : 1,
-                    cursor: isZoomed ? "grab" : "zoom-in"
-                  }}
-                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
-
-                  // Позволява влачене само ако е зуумната
-                  drag={isZoomed}
-                  dragConstraints={{ left: -300, right: 300, top: -300, bottom: 300 }}
-                  dragElastic={0.2}
-                  whileTap={isZoomed ? { cursor: "grabbing" } : {}}
-
-                  className="max-w-[90vw] max-h-[85vh] object-contain shadow-2xl rounded-lg"
-                />
-
-                 {/* Инструкция за зуум (показва се само ако не е зуумнато) */}
-                 {!isZoomed && (
-                    <motion.p
-                        initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}
-                        className="absolute bottom-4 text-white/50 text-sm pointer-events-none bg-black/30 px-3 py-1 rounded-full"
+            {/* СЛОЙ С БУТОНИ (Винаги най-отгоре) */}
+            <div className="absolute inset-0 z-[60] pointer-events-none flex flex-col justify-between p-4">
+                {/* Горен ред: Затвори */}
+                <div className="flex justify-end">
+                    <button
+                        onClick={closeLightbox}
+                        className="pointer-events-auto p-2 bg-white/10 hover:bg-white/30 rounded-full text-white transition"
                     >
-                        Кликни върху снимката за увеличение
-                    </motion.p>
-                 )}
+                        <X size={32} />
+                    </button>
+                </div>
+
+                {/* Среден ред: Стрелки */}
+                <div className="flex justify-between items-center flex-1 px-2">
+                    <button
+                        onClick={showPrev}
+                        className="pointer-events-auto p-3 bg-white/10 hover:bg-white/30 rounded-full text-white transition hover:scale-110"
+                    >
+                        <ChevronLeft size={40} />
+                    </button>
+                    <button
+                        onClick={showNext}
+                        className="pointer-events-auto p-3 bg-white/10 hover:bg-white/30 rounded-full text-white transition hover:scale-110"
+                    >
+                        <ChevronRight size={40} />
+                    </button>
+                </div>
+
+                {/* Долен ред: Инфо (празен за баланс) */}
+                <div className="h-10"></div>
             </div>
 
-             {/* Информация за снимката долу */}
-             <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-center pointer-events-none md:pointer-events-auto z-50">
-                <h3 className="text-xl font-bold text-white">{currentImage.alt}</h3>
-                <p className="text-white/60">{selectedIndex + 1} от {images.length}</p>
-             </div>
+            {/* СЛОЙ С ИЗОБРАЖЕНИЕТО */}
+            <div
+                className="relative z-50 w-full h-full p-4 md:p-10 flex items-center justify-center overflow-hidden"
+                onClick={(e) => e.stopPropagation()} // Спира затварянето при клик около снимката
+            >
+                <motion.img
+                    key={selectedIndex} // Важно за рестарт на анимацията при смяна
+                    src={currentImage.src}
+                    alt={currentImage.alt}
+                    initial={{ scale: 0.9, opacity: 0 }}
+                    animate={{
+                        scale: isZoomed ? 2.5 : 1,
+                        opacity: 1,
+                        x: 0,
+                        y: 0
+                    }}
+                    transition={{ type: "spring", stiffness: 300, damping: 25 }}
+
+                    onClick={toggleZoom}
+
+                    // Влачене само ако е зуумнато
+                    drag={isZoomed}
+                    dragConstraints={{ left: -500, right: 500, top: -500, bottom: 500 }}
+                    dragElastic={0.1}
+
+                    className={`max-w-full max-h-full object-contain rounded-lg shadow-2xl transition-cursor ${isZoomed ? "cursor-grab active:cursor-grabbing" : "cursor-zoom-in"}`}
+                />
+
+                {/* Текст под снимката (показва се само ако НЕ е зуумнато) */}
+                {!isZoomed && (
+                    <div className="absolute bottom-8 left-1/2 -translate-x-1/2 bg-black/60 px-4 py-2 rounded-full text-center pointer-events-none">
+                        <p className="text-white font-medium">{currentImage.alt}</p>
+                        <p className="text-xs text-white/70">{selectedIndex + 1} / {images.length}</p>
+                    </div>
+                )}
+            </div>
+
           </motion.div>
         )}
       </AnimatePresence>

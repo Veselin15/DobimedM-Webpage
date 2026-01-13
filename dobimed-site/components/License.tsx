@@ -1,6 +1,6 @@
 export default function License() {
   return (
-    <section className="py-20 bg-blue-900 text-white relative overflow-hidden">
+    <section id="license" className="py-20 bg-blue-900 text-white relative overflow-hidden">
       {/* Декоративен елемент */}
       <div className="absolute top-0 right-0 w-64 h-64 bg-blue-800 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
 
