@@ -9,6 +9,7 @@ const navLinks = [
   { name: "За нас", href: "#about" },
   { name: "Услуги", href: "#services" },
   { name: "Как работим", href: "#process" },
+  { name: "Партньори", href: "#partners" }, // Добавихме секцията тук
   { name: "Лицензи", href: "#license" },
   { name: "Галерия", href: "#gallery" },
   { name: "Контакти", href: "#contact" },
@@ -19,22 +20,28 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
 
+  // Функция за ръчно задаване на активна секция при клик
+  const handleLinkClick = (sectionId: string) => {
+    setActiveSection(sectionId);
+    setIsOpen(false); // Затваря мобилното меню ако е отворено
+  };
+
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
 
-      // 1. СПЕЦИАЛНА ПРОВЕРКА ЗА ДЪНОТО НА СТРАНИЦАТА
-      // Ако потребителят е стигнал до края, винаги маркираме "Контакти"
-      if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 10) {
+      // 1. Проверка за дъното на страницата (Контакти)
+      if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 20) {
         setActiveSection("contact");
         return;
       }
 
-      // 2. СТАНДАРТНА ЛОГИКА ЗА ОСТАНАЛИТЕ СЕКЦИИ
+      // 2. Стандартна логика
       const sections = navLinks.map(link => link.href.substring(1));
 
-      // Добавяме отместване (offset), за да се сменя малко преди секцията да стигне върха
-      const scrollPosition = window.scrollY + 300;
+      // НАМАЛИХМЕ отместването на 120px (приблизително височината на хедъра + малко аванс)
+      // Това помага подчертаването да стои по-дълго върху правилната секция
+      const scrollPosition = window.scrollY + 120;
 
       for (const section of sections) {
         const element = document.getElementById(section);
@@ -42,7 +49,7 @@ export default function Navbar() {
           const offsetTop = element.offsetTop;
           const offsetHeight = element.offsetHeight;
 
-          // Ако скролът е между началото и края на секцията
+          // Проверяваме дали текущата позиция попада в границите на секцията
           if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
             setActiveSection(section);
           }
@@ -50,10 +57,10 @@ export default function Navbar() {
       }
     };
 
-    // Извикваме веднъж при зареждане, за да захапе правилната секция
+    window.addEventListener("scroll", handleScroll);
+    // Извикваме веднъж, за да зареди правилното състояние при рефреш
     handleScroll();
 
-    window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -80,6 +87,7 @@ export default function Navbar() {
                 <a
                   key={link.name}
                   href={link.href}
+                  onClick={() => handleLinkClick(link.href.substring(1))}
                   className={`text-sm font-medium transition-all relative py-1 ${
                     isActive ? "text-blue-600" : "text-slate-600 hover:text-blue-600"
                   }`}
@@ -137,7 +145,7 @@ export default function Navbar() {
                 <a
                   key={link.name}
                   href={link.href}
-                  onClick={() => setIsOpen(false)}
+                  onClick={() => handleLinkClick(link.href.substring(1))}
                   className={`font-medium transition-colors ${
                      activeSection === link.href.substring(1) ? "text-blue-600" : "text-slate-800"
                   }`}
