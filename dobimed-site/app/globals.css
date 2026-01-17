@@ -19,10 +19,9 @@
   }
 }
 
-/* --- ТУК Е МАГИЯТА ЗА ПЛАВНО СКРОЛВАНЕ --- */
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 100px; /* Това предотвратява менюто да скрива заглавията */
+  scroll-padding-top: 100px;
 }
 
 body {
