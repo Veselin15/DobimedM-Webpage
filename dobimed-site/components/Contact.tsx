@@ -1,116 +1,191 @@
+"use client";
+
 import React from "react";
-import {MapPin, Phone, Mail, Clock} from "lucide-react";
+import { MapPin, Phone, Mail, Clock, Navigation, ExternalLink } from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function Contact() {
-    return (
-        <section id="contact" className="py-20 bg-white">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="text-center mb-16">
-                    <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
-                        Свържете се с нас
-                    </h2>
-                    <p className="mt-4 text-lg text-gray-600">
-                        Намерете ни на място или се обадете за консултация.
-                    </p>
-                </div>
+  // Координати за Google Maps
+  // Използваме универсален линк за навигация
+  const googleMapsUrl = "https://www.google.com/maps/dir/?api=1&destination=43.561435,27.818232";
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-                    {/* ЛЯВА ЧАСТ - ИНФОРМАЦИЯ */}
-                    <div className="bg-slate-50 p-8 rounded-2xl shadow-sm border border-slate-100">
-                        <div className="space-y-8">
+  // Gmail Compose Link (за отваряне директно в Gmail в браузъра)
+  // Алтернативно, mailto: работи с дефолтното приложение на телефона
+  const emailAddress = "dobimedm@abv.bg";
+  const gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${emailAddress}`;
 
-                            {/* Адрес */}
-                            <div className="flex items-start">
-                                <div className="flex-shrink-0">
-                                    <div
-                                        className="flex items-center justify-center h-12 w-12 rounded-full bg-blue-100 text-blue-600">
-                                        <MapPin size={24}/>
-                                    </div>
-                                </div>
-                                <div className="ml-5">
-                                    <h3 className="text-lg font-medium text-gray-900">Адрес</h3>
-                                    <p className="mt-2 text-base text-gray-600">
-                                        гр. Добрич <br/>
-                                        ул. "Панайот Хитов" № 24
-                                    </p>
-                                </div>
-                            </div>
+  return (
+    <section id="contact" className="py-24 bg-slate-950 relative overflow-hidden border-t border-slate-900">
 
-                            {/* Телефон */}
-                            <div className="flex items-start">
-                                <div className="flex-shrink-0">
-                                    <div
-                                        className="flex items-center justify-center h-12 w-12 rounded-full bg-blue-100 text-blue-600">
-                                        <Phone size={24}/>
-                                    </div>
-                                </div>
-                                <div className="ml-5">
-                                    <h3 className="text-lg font-medium text-gray-900">Телефон</h3>
-                                    <p className="mt-2 text-base text-gray-600">
-                                        <a href="tel:+359888123456" className="hover:text-blue-600 transition">
-                                            +359 888 881 200
-                                        </a>
-                                    </p>
-                                    <p className="text-sm text-gray-500">(Управител: Веселин Стоянов)</p>
-                                </div>
-                            </div>
+      {/* Декоративен фон */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-blue-900/20 rounded-full blur-[100px] translate-x-1/2 -translate-y-1/2"></div>
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-indigo-900/20 rounded-full blur-[100px] -translate-x-1/2 translate-y-1/2"></div>
+      </div>
 
-                            {/* Имейл */}
-                            <div className="flex items-start">
-                                <div className="flex-shrink-0">
-                                    <div
-                                        className="flex items-center justify-center h-12 w-12 rounded-full bg-blue-100 text-blue-600">
-                                        <Mail size={24}/>
-                                    </div>
-                                </div>
-                                <div className="ml-5">
-                                    <h3 className="text-lg font-medium text-gray-900">Имейл</h3>
-                                    <p className="mt-2 text-base text-gray-600">
-                                        <a href="mailto:office@dobimed.com" className="hover:text-blue-600 transition">
-                                            dobimed_m@abv.bg
-                                        </a>
-                                    </p>
-                                </div>
-                            </div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
-                            {/* Работно време */}
-                            <div className="flex items-start">
-                                <div className="flex-shrink-0">
-                                    <div
-                                        className="flex items-center justify-center h-12 w-12 rounded-full bg-blue-100 text-blue-600">
-                                        <Clock size={24}/>
-                                    </div>
-                                </div>
-                                <div className="ml-5">
-                                    <h3 className="text-lg font-medium text-gray-900">Работно време</h3>
-                                    <p className="mt-2 text-base text-gray-600">
-                                        Понеделник - Петък: 08:30 - 17:00 <br/>
-                                        Събота и Неделя: Почивен ден
-                                    </p>
-                                </div>
-                            </div>
+        {/* Заглавие */}
+        <div className="text-center mb-16">
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-3xl md:text-5xl font-extrabold text-white tracking-tight"
+          >
+            Свържете се <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500">с нас</span>
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="mt-4 text-lg text-slate-400 max-w-2xl mx-auto"
+          >
+            Намерете ни на място в обновената ни база или се свържете дистанционно.
+          </motion.p>
+        </div>
 
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-stretch">
+
+            {/* ЛЯВА ЧАСТ - ИНФОРМАЦИЯ */}
+            <motion.div
+                initial={{ opacity: 0, x: -50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+                className="bg-slate-900/50 backdrop-blur-md p-8 rounded-3xl border border-slate-800 shadow-2xl"
+            >
+                <div className="space-y-10">
+
+                    {/* Адрес */}
+                    <div className="group flex items-start gap-5">
+                        <div className="flex-shrink-0 w-14 h-14 rounded-2xl bg-blue-500/10 flex items-center justify-center border border-blue-500/20 group-hover:bg-blue-500/20 group-hover:scale-110 transition-all duration-300">
+                            <MapPin size={28} className="text-blue-500" />
+                        </div>
+                        <div className="flex-1">
+                            <h3 className="text-xl font-bold text-white mb-1">Адрес и Локация</h3>
+                            <p className="text-slate-400 leading-relaxed mb-3">
+                                гр. Добрич, 9300 <br/>
+                                ул. "Панайот Хитов" № 24
+                            </p>
+
+                            {/* БУТОН: НАВИГИРАЙ ДО ТУК */}
+                            <a
+                                href={googleMapsUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center text-sm font-medium text-blue-400 hover:text-blue-300 transition-colors bg-blue-500/10 px-4 py-2 rounded-lg hover:bg-blue-500/20"
+                            >
+                                <Navigation size={16} className="mr-2" />
+                                Навигирай с Google Maps
+                            </a>
                         </div>
                     </div>
 
-                    {/* ДЯСНА ЧАСТ - КАРТА */}
-                    <div
-                        className="h-full min-h-[400px] bg-gray-200 rounded-2xl overflow-hidden shadow-lg border border-gray-200 relative">
-                        <iframe
-                            // Използваме координатите в параметъра q=
-                            src="https://maps.google.com/maps?q=43.561435,27.818232&hl=bg&z=16&output=embed"
-                            width="100%"
-                            height="100%"
-                            style={{border: 0, minHeight: "400px"}}
-                            allowFullScreen={true}
-                            loading="lazy"
-                            referrerPolicy="no-referrer-when-downgrade"
-                            className="absolute inset-0 w-full h-full"
-                            title="Локация на Добимед М ООД"
-                        ></iframe>
+                    {/* Телефон */}
+                    <div className="group flex items-start gap-5">
+                        <div className="flex-shrink-0 w-14 h-14 rounded-2xl bg-green-500/10 flex items-center justify-center border border-green-500/20 group-hover:bg-green-500/20 group-hover:scale-110 transition-all duration-300">
+                            <Phone size={28} className="text-green-500" />
+                        </div>
+                        <div className="flex-1">
+                            <h3 className="text-xl font-bold text-white mb-1">Телефон за връзка</h3>
+
+                            {/* БУТОН: ОБАЖДАНЕ */}
+                            <p className="text-slate-400 mb-1">
+                                <a
+                                    href="tel:+359888881200"
+                                    className="text-xl text-white hover:text-green-400 transition-colors font-mono block w-fit"
+                                >
+                                    +359 888 881 200
+                                </a>
+                            </p>
+                            <p className="text-sm text-slate-500 font-medium bg-slate-800/50 inline-block px-3 py-1 rounded-full mt-2">
+                                Управител: Веселин Стоянов
+                            </p>
+                        </div>
                     </div>
+
+                    {/* Имейл */}
+                    <div className="group flex items-start gap-5">
+                        <div className="flex-shrink-0 w-14 h-14 rounded-2xl bg-purple-500/10 flex items-center justify-center border border-purple-500/20 group-hover:bg-purple-500/20 group-hover:scale-110 transition-all duration-300">
+                            <Mail size={28} className="text-purple-500" />
+                        </div>
+                        <div className="flex-1">
+                            <h3 className="text-xl font-bold text-white mb-1">Електронна поща</h3>
+
+                            {/* БУТОН: ПИСАНЕ НА ИМЕЙЛ */}
+                            <p className="text-slate-400">
+                                <a
+                                    href={`mailto:${emailAddress}`}
+                                    className="hover:text-purple-400 transition-colors flex items-center gap-2 text-lg mb-2"
+                                >
+                                    {emailAddress}
+                                    <ExternalLink size={16} className="opacity-50" />
+                                </a>
+                                {/* Опция за Gmail в браузъра (по избор) */}
+                                <a
+                                    href={gmailLink}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-xs text-purple-400 hover:text-purple-300 underline decoration-purple-500/30 underline-offset-4"
+                                >
+                                    Отвори директно в Gmail
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+
+                    {/* Работно време */}
+                    <div className="group flex items-start gap-5">
+                        <div className="flex-shrink-0 w-14 h-14 rounded-2xl bg-orange-500/10 flex items-center justify-center border border-orange-500/20 group-hover:bg-orange-500/20 group-hover:scale-110 transition-all duration-300">
+                            <Clock size={28} className="text-orange-500" />
+                        </div>
+                        <div className="flex-1">
+                            <h3 className="text-xl font-bold text-white mb-1">Работно време</h3>
+                            <ul className="text-slate-400 space-y-1">
+                                <li className="flex justify-between max-w-[200px]">
+                                    <span>Пон - Пет:</span>
+                                    <span className="text-white font-medium">09:00 - 17:00</span>
+                                </li>
+                                <li className="flex justify-between max-w-[200px] text-slate-500">
+                                    <span>Съб - Нед:</span>
+                                    <span>Почивен ден</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
                 </div>
-            </div>
-        </section>
-    );
+            </motion.div>
+
+            {/* ДЯСНА ЧАСТ - КАРТА */}
+            <motion.div
+                initial={{ opacity: 0, x: 50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+                className="h-full min-h-[500px] bg-slate-800 rounded-3xl overflow-hidden shadow-2xl border border-slate-700 relative group"
+            >
+
+                {/* Вградена карта (iframe) - използва embed API за показване */}
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2906.666014494883!2d27.8160433!3d43.561435!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDPCsDMzJzQxLjIiTiAyN8KwNDknMDUuNiJF!5e0!3m2!1sen!2sbg!4v1634567890123!5m2!1sen!2sbg"
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0, minHeight: "500px", filter: "grayscale(20%) contrast(1.1)" }}
+                    allowFullScreen={true}
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    className="absolute inset-0 w-full h-full opacity-90 group-hover:opacity-100 transition-opacity duration-500"
+                    title="Локация на Добимед М ООД"
+                ></iframe>
+
+                {/* Ефект на сянка вътре в рамката */}
+                <div className="absolute inset-0 pointer-events-none border-[6px] border-slate-800/30 rounded-3xl shadow-[inset_0_0_40px_rgba(0,0,0,0.5)]"></div>
+            </motion.div>
+        </div>
+      </div>
+    </section>
+  );
 }

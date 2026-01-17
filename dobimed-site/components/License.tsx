@@ -2,71 +2,129 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, ZoomIn, FileCheck } from "lucide-react";
+import { X, ZoomIn, ShieldCheck, Award, FileText } from "lucide-react";
 
 export default function License() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <section id="license" className="py-20 bg-blue-900 text-white relative overflow-hidden">
-      {/* Декоративен фон */}
-      <div className="absolute top-0 right-0 w-64 h-64 bg-blue-800 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
+    <section id="license" className="py-24 bg-slate-950 relative overflow-hidden border-t border-slate-900">
 
-      <div className="max-w-4xl mx-auto px-4 text-center relative z-10">
+      {/* --- ДЕКОРАТИВЕН ФОН --- */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[100px] translate-x-1/3 -translate-y-1/3"></div>
+        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-indigo-600/10 rounded-full blur-[100px] -translate-x-1/3 translate-y-1/3"></div>
+      </div>
 
-        {/* Заглавие и Текст */}
-        <h2 className="text-3xl font-bold mb-8 uppercase tracking-wider text-blue-200 border-b border-blue-800 pb-4 inline-block">
-          Удостоверение и Лицензи
-        </h2>
+      <div className="max-w-6xl mx-auto px-4 text-center relative z-10">
 
-        <p className="text-xl md:text-2xl leading-relaxed font-light mb-8">
-          "Фирмата притежава удостоверение за регистрация от <strong className="text-white font-bold">Агенцията за ядрено регулиране</strong> за работа с източници на йонизиращи лъчения."
-        </p>
+        {/* --- ЗАГЛАВИЕ --- */}
+        <div className="flex flex-col items-center mb-16">
+            <motion.div
+                initial={{ scale: 0 }}
+                whileInView={{ scale: 1 }}
+                viewport={{ once: true }}
+                className="p-4 bg-blue-500/10 rounded-full mb-6 ring-1 ring-blue-500/30"
+            >
+                <Award size={40} className="text-blue-500" />
+            </motion.div>
 
-        {/* --- ПРЕГЛЕД НА ЛИЦЕНЗА (Поправен: Без размазване) --- */}
-        <motion.div
-          className="inline-block relative group cursor-pointer"
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-          onClick={() => setIsOpen(true)}
-        >
-            {/* Рамка/Контейнер за лиценза */}
+            <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-6 tracking-tight">
+              Лицензи и <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500">Сертификати</span>
+            </h2>
 
+            <p className="text-lg md:text-xl text-slate-400 max-w-3xl mx-auto font-light leading-relaxed">
+              "Фирмата притежава удостоверение за регистрация от <strong className="text-white font-semibold">Агенцията за ядрено регулиране (АЯР)</strong> за работа с източници на йонизиращи лъчения."
+            </p>
+        </div>
 
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
 
+            {/* --- ЛЯВА ЧАСТ: ЛИЦЕНЗЪТ (КАРТА) --- */}
+            <div className="flex justify-center lg:justify-end">
+                <motion.div
+                  className="relative group cursor-zoom-in perspective-1000"
+                  whileHover={{ y: -5, rotateX: 2 }}
+                  onClick={() => setIsOpen(true)}
+                >
+                    {/* Сияние зад картата */}
+                    <div className="absolute inset-0 bg-blue-600/20 blur-2xl rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
- <div className="bg-white p-3 rounded-lg shadow-2xl rotate-1 group-hover:rotate-0 transition duration-300 max-w-xs mx-auto">
-                <div className="relative overflow-hidden rounded border border-slate-200">
-                    {/* ТУК Е СНИМКАТА НА ЛИЦЕНЗА */}
-                    {/* Увери се, че файлът се казва license.jpg в папката public/images */}
-                    <img
-                        src="/images/license.jpg"
-                        alt="Лиценз АЯР"
-                        className="w-full h-auto object-cover group-hover:blur-0 transition duration-500"
-                    />
+                    {/* Рамка на документа */}
+                    <div className="relative bg-slate-900 p-3 rounded-2xl border border-slate-700 shadow-2xl group-hover:border-blue-500/50 transition-all duration-300 w-full max-w-sm">
 
-                    {/* Слой с икона при хувър */}
-                    <div className="absolute inset-0 bg-blue-900/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
-                        <div className="bg-white/20 backdrop-blur-sm p-3 rounded-full text-white">
-                            <ZoomIn size={32} />
+                        {/* Контейнер за снимката */}
+                        <div className="relative overflow-hidden rounded-xl bg-slate-800 border border-slate-600 aspect-[3/4]">
+                            <img
+                                src="/images/license.jpg"
+                                alt="Лиценз АЯР"
+                                className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-all duration-500 group-hover:scale-105"
+                            />
+
+                            {/* Overlay при hover */}
+                            <div className="absolute inset-0 bg-slate-950/60 backdrop-blur-[2px] flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
+                                <div className="p-3 bg-blue-600 rounded-full text-white shadow-lg mb-2 transform scale-90 group-hover:scale-100 transition-transform">
+                                    <ZoomIn size={28} />
+                                </div>
+                                <span className="text-white font-medium tracking-wide">Преглед на оригинала</span>
+                            </div>
+                        </div>
+
+                        {/* Долна част на картата */}
+                        <div className="mt-3 flex items-center justify-between px-2">
+                            <div className="flex items-center gap-2">
+                                <div className="bg-green-500/10 p-1 rounded-full">
+                                    <ShieldCheck size={16} className="text-green-500" />
+                                </div>
+                                <span className="text-slate-300 text-sm font-semibold">Валиден статус</span>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <p className="text-slate-800 font-bold mt-2 text-sm flex items-center justify-center gap-2">
-                    <FileCheck size={16} className="text-green-600" />
-                    Виж оригинала
-                </p>
+                </motion.div>
             </div>
-        </motion.div>
 
-        <p className="mt-12 text-blue-100 text-lg">
-          Техническо обслужване, монтаж, демонтаж и ремонт на медицинска рентгенова апаратура за диагностика.
-        </p>
+            {/* --- ДЯСНА ЧАСТ: ИНФОРМАЦИЯ --- */}
+            <div className="text-left space-y-6">
 
-        {/* ТУК Е ПРОМЯНАТА: По-контрастен фон и бял текст */}
-        <div className="mt-6 inline-block px-6 py-3 bg-black/30 backdrop-blur-sm rounded-lg text-sm text-white border border-blue-400/30 shadow-sm">
-          В съответствие с Наредбата за радиационна защита
+                {/* Инфо Карта 1 */}
+                <motion.div
+                    whileHover={{ x: 5 }}
+                    className="p-6 bg-slate-900/50 border border-slate-800 rounded-2xl hover:border-blue-500/30 transition-colors group"
+                >
+                    <div className="flex items-start gap-4">
+                        <div className="p-3 bg-blue-500/10 rounded-lg group-hover:bg-blue-500/20 transition-colors">
+                            <FileText size={24} className="text-blue-400" />
+                        </div>
+                        <div>
+                            <h3 className="text-lg font-bold text-white mb-2">Обхват на дейност</h3>
+                            <p className="text-slate-400 leading-relaxed text-sm">
+                                Извършваме специализирано техническо обслужване, монтаж, демонтаж и ремонт на медицинска рентгенова апаратура за диагностика.
+                            </p>
+                        </div>
+                    </div>
+                </motion.div>
+
+                {/* Инфо Карта 2 */}
+                <motion.div
+                    whileHover={{ x: 5 }}
+                    className="p-6 bg-slate-900/50 border border-slate-800 rounded-2xl hover:border-green-500/30 transition-colors group"
+                >
+                    <div className="flex items-start gap-4">
+                        <div className="p-3 bg-green-500/10 rounded-lg group-hover:bg-green-500/20 transition-colors">
+                            <ShieldCheck size={24} className="text-green-400" />
+                        </div>
+                        <div>
+                            <h3 className="text-lg font-bold text-white mb-2">Законово съответствие</h3>
+                            <p className="text-slate-400 leading-relaxed text-sm">
+                                Дейността ни е в пълно съответствие с Наредбата за радиационна защита и изискванията на националното законодателство.
+                            </p>
+                        </div>
+                    </div>
+                </motion.div>
+
+            </div>
         </div>
+
       </div>
 
       {/* --- МОДАЛЕН ПРОЗОРЕЦ (LIGHTBOX) --- */}
@@ -79,18 +137,16 @@ export default function License() {
             onClick={() => setIsOpen(false)}
             className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 p-4 backdrop-blur-md"
           >
-            {/* Бутон за затваряне */}
-            <button className="absolute top-6 right-6 text-white/80 hover:text-white p-2 bg-white/10 rounded-full transition">
+            <button className="absolute top-6 right-6 text-white/70 hover:text-white p-2 bg-white/10 rounded-full transition hover:rotate-90 duration-300">
               <X size={32} />
             </button>
 
-            {/* Голямата снимка */}
             <motion.img
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
+              initial={{ scale: 0.9, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
               src="/images/license.jpg"
-              alt="Лиценз Добимед"
-              className="max-w-full max-h-[90vh] rounded shadow-2xl bg-white object-contain"
+              alt="Лиценз Добимед Голям"
+              className="max-w-full max-h-[90vh] rounded-lg shadow-2xl object-contain border border-slate-700 bg-slate-900"
               onClick={(e) => e.stopPropagation()}
             />
           </motion.div>
