@@ -16,7 +16,6 @@ export default function Footer() {
             </p>
           </div>
 
-          {/* Колона 2: Бързи връзки */}
           <div>
             <h3 className="text-lg font-semibold text-white mb-4">Навигация</h3>
             <ul className="space-y-2 text-sm">
@@ -24,16 +23,6 @@ export default function Footer() {
               <li><a href="#services" className="hover:text-blue-400 transition">Услуги</a></li>
               <li><a href="#partners" className="hover:text-blue-400 transition">Партньори</a></li>
               <li><a href="#license" className="hover:text-blue-400 transition">Лицензи</a></li>
-            </ul>
-          </div>
-
-          {/* Колона 3: Правни */}
-          <div>
-            <h3 className="text-lg font-semibold text-white mb-4">Информация</h3>
-            <ul className="space-y-2 text-sm">
-              <li><a href="#" className="hover:text-blue-400 transition">Политика за поверителност</a></li>
-              <li><a href="#" className="hover:text-blue-400 transition">Общи условия</a></li>
-              <li><a href="#" className="hover:text-blue-400 transition">Бисквитки (Cookies)</a></li>
             </ul>
           </div>
         </div>
