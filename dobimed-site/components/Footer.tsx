@@ -15,7 +15,7 @@ export default function Footer() {
           {/* 1. БРАНД И ОПИСАНИЕ */}
           <div className="space-y-6">
             <h3 className="text-2xl font-bold text-white tracking-tight">
-              DOBI<span className="text-blue-600">MED M</span>
+              ДОБИ<span className="text-blue-600">МЕД М</span> ООД
             </h3>
             <p className="text-sm leading-relaxed max-w-xs">
               Лицензиран сервиз за медицинска и рентгенова апаратура.

@@ -9,7 +9,7 @@ const navLinks = [
   { name: "За нас", href: "#about" },
   { name: "Услуги", href: "#services" },
   { name: "Как работим", href: "#process" },
-  { name: "Партньори", href: "#partners" }, // Добавихме секцията тук
+  { name: "Партньори", href: "#partners" },
   { name: "Лицензи", href: "#license" },
   { name: "Галерия", href: "#gallery" },
   { name: "Контакти", href: "#contact" },
@@ -20,27 +20,21 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
 
-  // Функция за ръчно задаване на активна секция при клик
   const handleLinkClick = (sectionId: string) => {
     setActiveSection(sectionId);
-    setIsOpen(false); // Затваря мобилното меню ако е отворено
+    setIsOpen(false);
   };
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
 
-      // 1. Проверка за дъното на страницата (Контакти)
       if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 20) {
         setActiveSection("contact");
         return;
       }
 
-      // 2. Стандартна логика
       const sections = navLinks.map(link => link.href.substring(1));
-
-      // НАМАЛИХМЕ отместването на 120px (приблизително височината на хедъра + малко аванс)
-      // Това помага подчертаването да стои по-дълго върху правилната секция
       const scrollPosition = window.scrollY + 120;
 
       for (const section of sections) {
@@ -49,7 +43,6 @@ export default function Navbar() {
           const offsetTop = element.offsetTop;
           const offsetHeight = element.offsetHeight;
 
-          // Проверяваме дали текущата позиция попада в границите на секцията
           if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
             setActiveSection(section);
           }
@@ -58,7 +51,6 @@ export default function Navbar() {
     };
 
     window.addEventListener("scroll", handleScroll);
-    // Извикваме веднъж, за да зареди правилното състояние при рефреш
     handleScroll();
 
     return () => window.removeEventListener("scroll", handleScroll);
@@ -69,18 +61,44 @@ export default function Navbar() {
       <nav
         className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
           scrolled
-            ? "bg-white/90 backdrop-blur-md shadow-md py-3"
-            : "bg-transparent py-5"
+            ? "bg-white/95 backdrop-blur-md shadow-md py-2"
+            : "bg-transparent py-4"
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 flex justify-between items-center">
 
-          <a href="#home" className="text-2xl font-bold text-slate-800 tracking-tight">
-            DOBI<span className="text-blue-600">MED M</span>
+          {/* --- ЛОГОТО Е ТУК --- */}
+          <a href="#home" className="flex flex-col items-start group">
+            {/* Текстова част */}
+            <span className="text-lg sm:text-xl md:text-2xl font-extrabold uppercase tracking-wider text-slate-800 leading-none">
+              Добимед М ООД
+            </span>
+
+            {/* Кардиограма (SVG) */}
+            <svg
+                className="w-full h-5 sm:h-6 text-blue-600 mt-0.5"
+                viewBox="0 0 220 25"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                preserveAspectRatio="none"
+            >
+                <path
+                    // Този път рисува линията, пийка и края
+                    d="M0 12.5 H160 L165 8 L175 20 L185  0 L195 22 L205 12.5 H220"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    // Добавяме анимация при посочване
+                    className="group-hover:animate-pulse origin-left transition-all duration-300"
+                />
+            </svg>
           </a>
+          {/* --- КРАЙ НА ЛОГОТО --- */}
+
 
           {/* DESKTOP МЕНЮ */}
-          <div className="hidden md:flex items-center gap-6 lg:gap-8">
+          <div className="hidden lg:flex items-center gap-6 xl:gap-8">
             {navLinks.map((link) => {
               const isActive = activeSection === link.href.substring(1);
               return (
@@ -93,7 +111,6 @@ export default function Navbar() {
                   }`}
                 >
                   {link.name}
-                  {/* Анимирана линия */}
                   {isActive && (
                     <motion.span
                       layoutId="activeSection"
@@ -116,7 +133,7 @@ export default function Navbar() {
 
           <button
             onClick={() => setIsOpen(true)}
-            className="md:hidden p-2 text-slate-800 hover:bg-slate-100 rounded-lg transition"
+            className="lg:hidden p-2 text-slate-800 hover:bg-slate-100 rounded-lg transition"
           >
             <Menu size={28} />
           </button>
@@ -131,7 +148,7 @@ export default function Navbar() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: "100%" }}
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
-            className="fixed inset-0 z-50 bg-white flex flex-col items-center justify-center md:hidden"
+            className="fixed inset-0 z-50 bg-white flex flex-col items-center justify-center lg:hidden"
           >
             <button
               onClick={() => setIsOpen(false)}

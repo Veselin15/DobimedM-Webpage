@@ -20,17 +20,6 @@ export default function Hero() {
 
       <div className="relative z-10 max-w-4xl mx-auto mt-16 md:mt-0">
 
-        {/* --- 2. ЗНАЧКА ЗА ДОВЕРИЕ --- */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 text-blue-600 text-sm font-medium mb-8 shadow-sm"
-        >
-          <ShieldCheck size={16} />
-          <span className="tracking-wide uppercase text-xs">Лицензиран партньор • Шафхаузен, Швейцария</span>
-        </motion.div>
-
         {/* --- 3. ЗАГЛАВИЕ --- */}
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
@@ -38,11 +27,7 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="text-6xl md:text-8xl font-bold text-slate-900 mb-6 tracking-tight leading-tight"
         >
-          DOBI
-          {/* Градиентен текст за MED M */}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
-            MED M
-          </span>
+          ДОБИ<span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">МЕД М</span> ООД
         </motion.h1>
 
         {/* --- 4. ПОДЗАГЛАВИЕ --- */}
