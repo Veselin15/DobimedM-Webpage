@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Menu, X, Phone } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import Logo from "./Logo"; // <--- Импортираме готовото лого
 
 const navLinks = [
   { name: "Начало", href: "#home" },
@@ -61,33 +62,16 @@ export default function Navbar() {
       <nav
         className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
           scrolled
-            ? "bg-slate-950/90 backdrop-blur-md shadow-md py-2 border-b border-slate-800" // Тъмен фон и рамка при скрол
+            ? "bg-slate-950/90 backdrop-blur-md shadow-md py-2 border-b border-slate-800"
             : "bg-transparent py-4"
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 flex justify-between items-center">
 
-          {/* --- ЛОГО --- */}
-          <a href="#home" className="flex flex-col items-start group">
-            <span className="text-lg sm:text-xl md:text-2xl font-extrabold uppercase tracking-wider text-white leading-none"> {/* Бял текст */}
-              Добимед М ООД
-            </span>
-            <svg
-                className="w-full h-5 sm:h-6 text-blue-500 mt-0.5" // По-светло синьо
-                viewBox="0 0 220 25"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                preserveAspectRatio="none"
-            >
-                <path
-                    d="M0 12.5 H125 L130 4 L135 21 L140 12.5 L147 8 L154 12.5 H220"
-                    stroke="currentColor"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="group-hover:animate-pulse origin-left transition-all duration-300"
-                />
-            </svg>
+          {/* --- ЛОГО (Използваме компонента) --- */}
+          <a href="#home" className="block py-2">
+            {/* Задаваме размер на шрифта, а кардиограмата се нагажда автоматично */}
+            <Logo className="text-lg sm:text-xl md:text-2xl" />
           </a>
 
           {/* DESKTOP МЕНЮ */}
@@ -100,7 +84,7 @@ export default function Navbar() {
                   href={link.href}
                   onClick={() => handleLinkClick(link.href.substring(1))}
                   className={`text-sm font-medium transition-all relative py-1 ${
-                    isActive ? "text-blue-400" : "text-slate-300 hover:text-white" // Светли цветове за линковете
+                    isActive ? "text-blue-400" : "text-slate-300 hover:text-white"
                   }`}
                 >
                   {link.name}
@@ -116,7 +100,7 @@ export default function Navbar() {
             })}
 
             <a
-              href="tel:+359888123456"
+              href="tel:+359888881200"
               className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-full text-sm font-medium hover:bg-blue-500 transition shadow-lg hover:shadow-blue-500/20 hover:-translate-y-0.5"
             >
               <Phone size={16} />
@@ -133,7 +117,7 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* МОБИЛНО МЕНЮ (Тъмно) */}
+      {/* МОБИЛНО МЕНЮ */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -164,7 +148,7 @@ export default function Navbar() {
                 </a>
               ))}
               <a
-                href="tel:+359888123456"
+                href="tel:+359888881200"
                 className="mt-4 flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-full font-bold shadow-xl"
               >
                 <Phone size={20} />

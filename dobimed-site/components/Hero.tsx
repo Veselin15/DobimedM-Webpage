@@ -1,5 +1,5 @@
 "use client";
-
+import Logo from "./Logo";
 import { motion } from "framer-motion";
 import { ArrowRight, Phone } from "lucide-react";
 
@@ -19,15 +19,18 @@ export default function Hero() {
 
       <div className="relative z-10 max-w-4xl mx-auto mt-16 md:mt-0">
 
-        {/* --- 3. ЗАГЛАВИЕ --- */}
-        <motion.h1
+        {/* --- 3. ЗАГЛАВИЕ (ЛОГО) --- */}
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-6xl md:text-8xl font-bold text-white mb-6 tracking-tight leading-tight"
+          // ПРОМЯНА ТУК: Увеличихме mb-8 на mb-24 (за мобилни) и md:mb-40 (за десктоп),
+          // за да има място за кардиограмата, която виси надолу.
+          className="mb-24 md:mb-40 flex justify-center"
         >
-          ДОБИ<span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400">МЕД М</span> ООД
-        </motion.h1>
+          <Logo className="text-5xl sm:text-6xl md:text-8xl text-white drop-shadow-2xl" />
+        </motion.div>
+
 
         {/* --- 4. ПОДЗАГЛАВИЕ --- */}
         <motion.p
