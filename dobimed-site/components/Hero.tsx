@@ -19,15 +19,14 @@ export default function Hero() {
 
       <div className="relative z-10 max-w-4xl mx-auto mt-16 md:mt-0">
 
-        {/* --- 3. ЗАГЛАВИЕ (ЛОГО) --- */}
-        <motion.div
+        {/* --- 3. ЗАГЛАВИЕ --- */}
+<motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          // ПРОМЯНА ТУК: Увеличихме mb-8 на mb-24 (за мобилни) и md:mb-40 (за десктоп),
-          // за да има място за кардиограмата, която виси надолу.
-          className="mb-24 md:mb-40 flex justify-center"
+          className="mb-8 flex justify-center"
         >
+          {/* Тук задаваме огромния размер на логото */}
           <Logo className="text-5xl sm:text-6xl md:text-8xl text-white drop-shadow-2xl" />
         </motion.div>
 
