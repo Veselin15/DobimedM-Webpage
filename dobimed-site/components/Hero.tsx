@@ -17,26 +17,26 @@ export default function Hero() {
       <div className="absolute top-0 -right-4 w-72 h-72 bg-purple-600/20 rounded-full mix-blend-screen filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
       <div className="absolute -bottom-8 left-20 w-72 h-72 bg-pink-600/20 rounded-full mix-blend-screen filter blur-3xl opacity-30 animate-blob animation-delay-4000"></div>
 
-      <div className="relative z-10 max-w-4xl mx-auto mt-16 md:mt-0">
+      <div className="relative z-10 max-w-4xl mx-auto mt-16 md:mt-0 w-full">
 
-        {/* --- 3. ЗАГЛАВИЕ --- */}
-<motion.div
+        {/* --- 3. ЗАГЛАВИЕ (ЛОГО) --- */}
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="mb-8 flex justify-center"
+          // Увеличихме mb-8 на mb-24 (мобилни) и md:mb-40 (десктоп) за място на кардиограмата
+          className="mb-24 md:mb-20 flex justify-center w-full"
         >
-          {/* Тук задаваме огромния размер на логото */}
-          <Logo className="text-5xl sm:text-6xl md:text-8xl text-white drop-shadow-2xl" />
+          {/* ПРОМЯНА: text-2xl (мобилни) -> sm:text-5xl (таблети) -> md:text-8xl (големи екрани) */}
+          <Logo className="text-3xl sm:text-5xl md:text-7xl lg:text-7xl text-white drop-shadow-2xl max-w-full" />
         </motion.div>
-
 
         {/* --- 4. ПОДЗАГЛАВИЕ --- */}
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="text-xl md:text-2xl text-slate-400 mb-10 font-light max-w-2xl mx-auto leading-relaxed"
+          className="text-lg md:text-2xl text-slate-400 mb-10 font-light max-w-2xl mx-auto leading-relaxed px-2"
         >
           Професионален сервиз на медицинска и рентгенова апаратура.
           <br className="hidden md:block" />
@@ -48,11 +48,11 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
-          className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+          className="flex flex-col sm:flex-row gap-4 justify-center items-center w-full"
         >
           <a
             href="#contact"
-            className="group relative inline-flex items-center gap-2 px-8 py-4 bg-blue-600 text-white rounded-full font-semibold hover:bg-blue-500 transition shadow-lg hover:shadow-blue-500/25 overflow-hidden"
+            className="group relative inline-flex items-center gap-2 px-8 py-4 bg-blue-600 text-white rounded-full font-semibold hover:bg-blue-500 transition shadow-lg hover:shadow-blue-500/25 overflow-hidden w-full sm:w-auto justify-center"
           >
             <Phone size={20} className="group-hover:rotate-12 transition-transform" />
             <span>Свържете се с нас</span>
@@ -60,7 +60,7 @@ export default function Hero() {
 
           <a
             href="#services"
-            className="group inline-flex items-center gap-2 px-8 py-4 bg-transparent text-slate-300 border border-slate-700 rounded-full font-medium hover:bg-slate-800 hover:text-white hover:border-slate-600 transition"
+            className="group inline-flex items-center gap-2 px-8 py-4 bg-transparent text-slate-300 border border-slate-700 rounded-full font-medium hover:bg-slate-800 hover:text-white hover:border-slate-600 transition w-full sm:w-auto justify-center"
           >
             <span>Вижте услугите</span>
             <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
