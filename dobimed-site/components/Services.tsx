@@ -7,7 +7,7 @@ import { motion, useInView } from "framer-motion";
 const services = [
   {
     title: "Рентгенова Апаратура",
-    desc: "Лицензиран сервиз от АЯР. Монтаж, демонтаж, ремонт и протоколи.",
+    desc: "Сервиз лицензиран от АЯР",
     icon: Radio,
     color: "text-blue-400",
     bg: "bg-blue-500/10",

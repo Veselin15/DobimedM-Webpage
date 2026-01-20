@@ -23,12 +23,10 @@ export default function Logo({className = ""}: LogoProps) {
 
             {/* Кардиограма */}
             <svg
-                // Намалихме ширината леко на 170% и оправихме позицията
                 className="absolute left-0 w-[170%] h-auto pointer-events-none z-0"
                 style={{
                     top: '0.2em',
                     color: logoColor,
-                    // Намалихме изместването наляво от -23% на -15%, за да не се реже на мобилни
                     left: '-15%',
                 }}
                 viewBox="0 0 400 50"
@@ -37,13 +35,13 @@ export default function Logo({className = ""}: LogoProps) {
                 preserveAspectRatio="none"
             >
                 <path
-                    // Леко скъсихме началото на линията и пийковете, за да паснат на новото позициониране
-                    d="M10 25 H280 L290 1 L300 33 L310 15 L320 25 H360"
+                    d="M10 25 H278 L280 17 L285 33 L290 1 L295 25 H300"
                     stroke="currentColor"
-                    strokeWidth="3"
+                    strokeWidth="1" // ПРОМЯНА ТУК: Намалена дебелина от 3 на 2
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    className="group-hover:stroke-[4] transition-all duration-300"
+                    // При hover става малко по-дебела (от 2 на 3)
+                    className="group-hover:stroke-[3] transition-all duration-300"
                 />
             </svg>
         </div>
